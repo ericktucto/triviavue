@@ -8,7 +8,6 @@ function compartir() {
   const data = {
     title: 'Puntaje en mi trivia',
     text: `Obtuve ${props.score} punto(s) en mi trivia de https://triviavue.vercel.app/!`,
-    url,
     files: []
   }
   navigator.share(data)
