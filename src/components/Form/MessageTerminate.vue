@@ -5,7 +5,7 @@ const props = defineProps({
 });
 function compartir() {
   const url = "https://triviavue.vercel.app/";
-  const text = `Obtuve ${props.score} punto(s) en mi trivia de https://triviavue.vercel.app/!`,
+  const text = `Obtuve ${props.score} punto(s) en mi trivia de https://triviavue.vercel.app/!`;
   const data = {
     title: 'Puntaje en mi trivia',
     text: `Obtuve ${props.score} punto(s) en mi trivia de https://triviavue.vercel.app/!`,
