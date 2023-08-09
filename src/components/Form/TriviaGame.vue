@@ -55,16 +55,18 @@ onUnmounted(() => clearInterval(update));
         <div ref="barra" class="tiempo" :style="{ width: `${segundos * 10}%` }"></div>
       </div>
     </div>
-    <QuestionTrivia
-      v-for="(q, index) in results"
-      :key="index"
-      :category="q.category"
-      :question="q.question"
-      :correct-answer="q.correct_answer"
-      :incorrect-answers="q.incorrect_answers"
-      v-model="response"
-      v-show="index == currentScreen"
-    />
+    <div class="answers-container">
+      <QuestionTrivia
+        v-for="(q, index) in results"
+        :key="index"
+        :category="q.category"
+        :question="q.question"
+        :correct-answer="q.correct_answer"
+        :incorrect-answers="q.incorrect_answers"
+        v-model="response"
+        v-show="index == currentScreen"
+      />
+    </div>
     <button type="submit">Next</button>
   </form>
 </template>
@@ -75,6 +77,10 @@ form {
   flex-direction: column;
   row-gap: 1rem;
   align-items: center;
+}
+.answer-container {
+  display: flex;
+  flex-wrap: wrap;
 }
 .barra-container {
   display: flex;

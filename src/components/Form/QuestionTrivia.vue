@@ -22,17 +22,20 @@ const response = computed({
   }
 })
 const name = ref(props.question.replace(/[^a-z0-9]/gi, "-"));
+function parse(text) {
+  return decodeURIComponent(text);
+}
 </script>
 
 <template>
   <div>
-    <h2>{{ category }}</h2>
-    <h3>{{ question }}</h3>
+    <h2>{{ parse(category) }}</h2>
+    <h3>{{ parse(question) }}</h3>
     <div class="answers-container">
       <label
         v-for="(answer, index) in answers"
         :key="index"
-        :class="{ 'btn-outline': response != answer, btn: true, active: correctAnswer == answer }"
+        :class="{ 'btn-outline': response != answer, btn: true }"
       >
         <input
           type="radio"
@@ -40,7 +43,7 @@ const name = ref(props.question.replace(/[^a-z0-9]/gi, "-"));
           :name="name"
           v-model="response"
         />
-        <span v-html="answer"></span>
+        {{ parse(answer)  }}
       </label>
     </div>
   </div>
@@ -62,6 +65,8 @@ h3 {
   flex-direction: row;
   white-space: nowrap;
   column-gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .answers-container .btn {
   border-radius: 2rem;

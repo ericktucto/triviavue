@@ -16,7 +16,8 @@ function compartir() {
 const vercompartir = ref(false);
 onMounted(() => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  if (location.protocol === "https" && isMobile) {
+  const isSecure = location.protocol === "https:";
+  if (isMobile && isSecure) {
     vercompartir.value = true;
   }
 });
