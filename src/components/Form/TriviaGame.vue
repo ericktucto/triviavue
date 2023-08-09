@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineEmits, defineProps } from "vue";
+import { ref, computed, defineEmits, defineProps, onUnmounted } from "vue";
 import QuestionTrivia from "./QuestionTrivia.vue";
 const props = defineProps({
   results: Array,
@@ -30,7 +30,7 @@ setInterval(update, 900)
 
 
 function onSubmit() {
-  if (response.value == props.results[currentScreen.value].correct_answer) {
+  if (response.value == props.results[currentScreen.value]?.correct_answer) {
     score.value = score.value + 1;
   }
   // next questions
@@ -42,6 +42,7 @@ function onSubmit() {
     emit("terminatedTrivia");
   }
 }
+onUnmounted(() => clearInterval(update));
 </script>
 
 <template>

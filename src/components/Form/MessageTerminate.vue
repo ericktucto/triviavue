@@ -1,7 +1,24 @@
 <script setup>
-import { ref, defineEmits, defineProps } from "vue";
+import { ref, onMounted, defineProps } from "vue";
 const props = defineProps({
-  score: 10,
+  score: 0,
+});
+function compartir() {
+  const url = "https://triviavue.vercel.app/";
+  const data = {
+    title: 'Puntaje en mi trivia',
+    text: `Obtuve ${score} punto(s) en mi trivia de https://triviavue.vercel.app/!`,
+    url,
+    files: []
+  }
+  navigator.share(data)
+}
+const vercompartir = ref(false);
+onMounted(() => {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  if (location.protocol === "https" && isMobile) {
+    vercompartir.value = true;
+  }
 });
 </script>
 
@@ -13,7 +30,7 @@ const props = defineProps({
     <h2>Congratulations, your score is {{ score }} point(s).</h2>
     <div class="buttons-container">
       <button type="button" @click="$emit('restart')">Restart</button>
-      <button type="button" class="btn-outline">Share</button>
+      <button type="button" v-if="vercompartir" class="btn-outline" @click="compartir">Share</button>
     </div>
   </form>
 </template>
