@@ -1,28 +1,28 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
-import { categorias } from './../../datos.json';
+import { categories } from './../../datos.json';
 const emit = defineEmits(['selectedConfig']);
-const dificultad = ref("");
-const categoria = ref("");
+const difficulty = ref("easy");
+const category = ref("10");
 function onSubmit() {
-  emit("selectedConfig", { categoria: categoria.value, dificultad: dificultad.value });
+  emit("selectedConfig", { category: category.value, difficulty: difficulty.value });
 }
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
     <h1>TRIVIA GAME</h1>
-    <select name="categoria" id="categoria" required v-model="categoria">
-      <option value="" hidden>Seleccionar la categoria</option>
-      <option v-for="categoria, index in categorias" :key="index" :value="index">{{ categoria }}</option>
+    <select name="category" id="category" required v-model="category">
+      <option value="" hidden>Select category</option>
+      <option v-for="c, index in categories" :key="index" :value="index">{{ c }}</option>
     </select>
-    <select name="dificultad" id="dificultad" required v-model="dificultad">
-      <option value="" hidden>Seleccionar la dificultad</option>
-      <option value="easy">Fácil</option>
-      <option value="medium">Medio</option>
-      <option value="hard">Dificil</option>
+    <select name="difficulty" id="difficulty" required v-model="difficulty">
+      <option value="" hidden>Select difficulty</option>
+      <option value="easy">Easy</option>
+      <option value="medium">Medium</option>
+      <option value="hard">Hard</option>
     </select>
-    <button type="submit">Empezar</button>
+    <button type="submit">Start</button>
   </form>
 </template>
 

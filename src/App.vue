@@ -1,10 +1,25 @@
 <script setup>
-import ConfigTrivia from './components/Form/ConfigTrivia.vue';
+import { ref } from "vue";
+import ConfigTrivia from "./components/Form/ConfigTrivia.vue";
+import TriviaGame from "./components/Form/TriviaGame.vue";
 
+const results = ref([]);
+const currentScreen = ref("config");
+
+async function requestQuestions({ category, difficulty }) {
+  let url =
+    "https://opentdb.com/api.php?amount=5&category=:category&difficulty=:difficulty&type=multiple";
+  url = url.replace(":category", category).replace(":difficulty", difficulty);
+  const response = await fetch(url);
+  const data = await response.json();
+  data.results.forEach(r => results.value.push(r));
+  currentScreen.value = 'started';
+}
 </script>
 
 <template>
-  <ConfigTrivia/>
+  <ConfigTrivia @selected-config="requestQuestions" v-if="currentScreen === 'config'" />
+  <TriviaGame :results="results" v-if="currentScreen === 'started'"/>
 </template>
 
 <style scoped>

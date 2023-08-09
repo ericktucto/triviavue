@@ -30,7 +30,7 @@ h1 {
   line-height: 1.1;
 }
 
-select, button {
+select, button, .btn {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -45,7 +45,7 @@ select {
   color: black;
 }
 
-button {
+button, .btn {
   background-color: #1a1a1a;
   color: white;
 }
