@@ -1,0 +1,28 @@
+{
+    "categorias": {
+        "9": "Conocimientos generales",
+        "10": "Entretenimiento: Libros",
+        "11": "Entretenimiento: Cine",
+        "12": "Entretenimiento: Música",
+        "13": "Entretenimiento: musicales y teatros",
+        "14": "Entretenimiento: Televisión",
+        "15": "Entretenimiento: Videojuegos",
+        "16": "Entretenimiento: juegos de mesa",
+        "17": "Ciencia y Naturaleza",
+        "18": "Ciencias: Computadoras",
+        "19": "Ciencias: Matemáticas",
+        "20": "Mitología",
+        "21": "Deportes",
+        "22": "Geografía",
+        "23": "Historia",
+        "24": "Política",
+        "25": "Arte",
+        "26": "Famosos",
+        "27": "animales",
+        "28": "vehículos",
+        "29": "Entretenimiento: Cómics",
+        "30": "Ciencia: Gadgets",
+        "31": "Entretenimiento: anime y manga japoneses",
+        "32": "Entretenimiento: dibujos animados y animaciones"
+    }
+}
