@@ -1,22 +1,45 @@
 <script setup>
-import { ref, defineEmits, defineProps } from "vue";
+import { ref, computed, defineEmits, defineProps } from "vue";
 import QuestionTrivia from "./QuestionTrivia.vue";
 const props = defineProps({
   results: Array,
+  modelValue: Number,
 });
-const emit = defineEmits(["terminatedTrivia"]);
+const emit = defineEmits(["terminatedTrivia", "update:modelValue"]);
 const currentScreen = ref(1);
-const score = ref(0);
-
-function onResponse({ response }) {
-  if (response == props.results[currentScreen.value - 1].correct_answer) {
-    score.value++;
+const response = ref("");
+const barra = ref(null);
+const score = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
+const segundos = ref(0);
+function update() {
+  if (segundos.value <= 10) {
+    segundos.value++;
+  }
+  if (segundos.value == 10) {
+    onSubmit();
   }
 }
+setInterval(update, 900)
+
+
 function onSubmit() {
+  if (response.value == props.results[currentScreen.value].correct_answer) {
+    score.value = score.value + 1;
+  }
+  // next questions
   currentScreen.value++;
+  segundos.value = 0;
+  // check if all questions are answered
   if (currentScreen.value == props.results.length) {
-    emit("terminatedTrivia", { score: score.value });
+    clearInterval(update);
+    emit("terminatedTrivia");
   }
 }
 </script>
@@ -24,13 +47,12 @@ function onSubmit() {
 <template>
   <form @submit.prevent="onSubmit">
     <div class="barra-container">
+      <div>{{ segundos }} s</div>
       <div
-        v-for="index in results.length"
-        :key="index"
         class="barra-bloque"
-        :class="{ active: currentScreen >= index }"
-        :data-index="index"
-      ></div>
+      >
+        <div ref="barra" class="tiempo" :style="{ width: `${segundos * 10}%` }"></div>
+      </div>
     </div>
     <QuestionTrivia
       v-for="(q, index) in results"
@@ -39,7 +61,7 @@ function onSubmit() {
       :question="q.question"
       :correct-answer="q.correct_answer"
       :incorrect-answers="q.incorrect_answers"
-      @selected-response="onResponse"
+      v-model="response"
       v-show="index == currentScreen"
     />
     <button type="submit">Next</button>
@@ -56,16 +78,16 @@ form {
 .barra-container {
   display: flex;
   width: 100%;
+  column-gap: 12px;
+  align-items: center;
 }
 .barra-container .barra-bloque {
   flex: 1;
   height: 20px;
   background-color: #ccc;
+  display: flex;
 }
-.barra-container .barra-bloque.active {
+.barra-container .barra-bloque .tiempo {
   background-color: black;
-}
-select {
-  width: 240px;
 }
 </style>

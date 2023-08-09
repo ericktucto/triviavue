@@ -1,22 +1,27 @@
 <script setup>
-import { ref, defineEmits, defineProps } from "vue";
-const emit = defineEmits(["selectedResponse"]);
+import { ref, computed, defineEmits, defineProps } from "vue";
+const emit = defineEmits(["selectedResponse", "update:modelValue"]);
 const props = defineProps({
   question: String,
   category: String,
   correctAnswer: String,
   incorrectAnswers: Array,
+  modelValue: String,
 });
 const answers = ref(
   props.incorrectAnswers
     .concat([props.correctAnswer])
     .sort(() => Math.random() - 0.5)
 );
-const response = ref("");
+const response = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
 const name = ref(props.question.replace(/[^a-z0-9]/gi, "-"));
-function onChange() {
-  emit("selectedResponse", { response: response.value });
-}
 </script>
 
 <template>
@@ -27,12 +32,11 @@ function onChange() {
       <label
         v-for="(answer, index) in answers"
         :key="index"
-        :class="{ 'btn-outline': response != answer, btn: true }"
+        :class="{ 'btn-outline': response != answer, btn: true, active: correctAnswer == answer }"
       >
         <input
           type="radio"
           :value="answer"
-          @change="onChange"
           :name="name"
           v-model="response"
         />

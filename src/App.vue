@@ -17,8 +17,7 @@ async function requestQuestions({ category, difficulty }) {
   data.results.forEach(r => results.value.push(r));
   currentScreen.value = 'started';
 }
-function onTerminatedTrivia({ score: points }) {
-  score.value = points;
+function onTerminatedTrivia() {
   currentScreen.value = 'terminated';
 }
 function onRestart() {
@@ -29,7 +28,15 @@ function onRestart() {
 </script>
 
 <template>
+  <div class="points-container">Points: {{ score }}</div>
   <ConfigTrivia @selected-config="requestQuestions" v-if="currentScreen === 'config'" />
-  <TriviaGame :results="results" @terminated-trivia="onTerminatedTrivia" v-if="currentScreen === 'started'"/>
+  <TriviaGame v-model="score" :results="results" @terminated-trivia="onTerminatedTrivia" v-if="currentScreen === 'started'"/>
   <MessageTerminate :score="score" @restart="onRestart" v-if="currentScreen === 'terminated'"/>
 </template>
+<style>
+.points-container {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+</style>
