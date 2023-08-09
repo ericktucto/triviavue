@@ -14,27 +14,26 @@ const answers = ref(
 );
 const response = ref("");
 const name = ref(props.question.replace(/[^a-z0-9]/gi, "-"));
-function onChange(answer) {
-  console.log(response.value == answer)
+function onChange() {
   emit("selectedResponse", { response: response.value });
 }
 </script>
 
 <template>
   <div>
-    <h2>{{ props.category }}</h2>
-    <h3>{{ props.question }}</h3>
+    <h2>{{ category }}</h2>
+    <h3>{{ question }}</h3>
     <div class="answers-container">
       <label
         v-for="(answer, index) in answers"
         :key="index"
-        :class="{ unselected: response != answer, btn: true }"
+        :class="{ 'btn-outline': response != answer, btn: true }"
       >
         <input
           type="radio"
           :value="answer"
-          @change="onChange(answer)"
-          :name="name.value"
+          @change="onChange"
+          :name="name"
           v-model="response"
         />
         <span v-html="answer"></span>
@@ -62,11 +61,6 @@ h3 {
 }
 .answers-container .btn {
   border-radius: 2rem;
-}
-.answers-container .btn.unselected {
-  border: #ccc solid 1px;
-  background-color: white;
-  color: black;
 }
 .answers-container input {
   display: none;

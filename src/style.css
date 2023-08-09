@@ -49,6 +49,11 @@ button, .btn {
   background-color: #1a1a1a;
   color: white;
 }
+.btn-outline {
+  border: #ccc solid 1px;
+  background-color: white;
+  color: black;
+}
 .card {
   padding: 2em;
 }

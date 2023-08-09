@@ -1,19 +1,23 @@
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
 import QuestionTrivia from "./QuestionTrivia.vue";
-defineProps({
+const props = defineProps({
   results: Array,
 });
+const emit = defineEmits(["terminatedTrivia"]);
 const currentScreen = ref(1);
 const score = ref(0);
 
 function onResponse({ response }) {
-  if (response == results[currentScreen.value - 1].correct_answer) {
+  if (response == props.results[currentScreen.value - 1].correct_answer) {
     score.value++;
   }
 }
 function onSubmit() {
   currentScreen.value++;
+  if (currentScreen.value == props.results.length) {
+    emit("terminatedTrivia", { score: score.value });
+  }
 }
 </script>
 

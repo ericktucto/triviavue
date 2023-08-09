@@ -2,9 +2,11 @@
 import { ref } from "vue";
 import ConfigTrivia from "./components/Form/ConfigTrivia.vue";
 import TriviaGame from "./components/Form/TriviaGame.vue";
+import MessageTerminate from "./components/Form/MessageTerminate.vue";
 
 const results = ref([]);
 const currentScreen = ref("config");
+const score = ref(0);
 
 async function requestQuestions({ category, difficulty }) {
   let url =
@@ -15,24 +17,19 @@ async function requestQuestions({ category, difficulty }) {
   data.results.forEach(r => results.value.push(r));
   currentScreen.value = 'started';
 }
+function onTerminatedTrivia({ score: points }) {
+  score.value = points;
+  currentScreen.value = 'terminated';
+}
+function onRestart() {
+  currentScreen.value = 'config';
+  score.value = 0;
+  results.value = [];
+}
 </script>
 
 <template>
   <ConfigTrivia @selected-config="requestQuestions" v-if="currentScreen === 'config'" />
-  <TriviaGame :results="results" v-if="currentScreen === 'started'"/>
+  <TriviaGame :results="results" @terminated-trivia="onTerminatedTrivia" v-if="currentScreen === 'started'"/>
+  <MessageTerminate :score="score" @restart="onRestart" v-if="currentScreen === 'terminated'"/>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
